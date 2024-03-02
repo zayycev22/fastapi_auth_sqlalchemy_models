@@ -19,7 +19,8 @@ classifiers = [
 dependencies = [
     "typing-extensions",
     "greenlet >= 3.0.0",
-    "sqlalchemy >= 2.0.0"
+    "sqlalchemy >= 2.0.0",
+    "fastapi_auth >= 0.0.1"
 ]
 description = "Sqlalchemy repositories and models for fastapi-auth library"
 requires-python = ">=3.10"

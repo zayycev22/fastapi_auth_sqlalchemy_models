@@ -1,11 +1,11 @@
-from typing import Type, Optional, Generic
+from typing import Type, Optional
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
 from fastapi_auth.exceptions import UserAlreadyExists
 from fastapi_auth.models import user_model
-from fastapi_auth.sqlalchemy_models.models import Token
+from fastapi_auth_sqlalchemy_models.models import Token
 from fastapi_auth.repositories import BaseTokenRepository, BaseUserRepository
 
 

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fastapi_auth_sqlalchemy_models"
-version = "0.0.1"
+dynamic = ['version']
 authors = [
     { name = "zayycev22" },
 ]

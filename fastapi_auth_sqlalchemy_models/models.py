@@ -15,6 +15,7 @@ class ExModel(ExternalBaseModel):
         session: AsyncSession = kwargs.get('session')
         if not session:
             raise ValueError("Session cannot be None")
+        await main_signal.emit_before_save(instance=self, session=session)
         session.add(self)
         await session.flush()
         await session.commit()
@@ -54,6 +55,7 @@ class Token(AbstractToken):
             raise ValueError("Session cannot be None")
         if not self.key:
             self.key = self.generate_key()
+        await main_signal.emit_before_save(instance=self, session=session)
         session.add(self)
         await session.flush()
         await session.commit()
@@ -91,6 +93,7 @@ class BaseUser(AbstractBaseUser):
         session: AsyncSession = kwargs.get('session')
         if session is None:
             raise ValueError("Session cannot be None")
+        await main_signal.emit_before_save(instance=self, session=session)
         session.add(self)
         await session.flush()
         await session.commit()

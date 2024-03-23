@@ -12,7 +12,7 @@ class ExModel(ExternalBaseModel):
     __tablename__ = ""
 
     async def save(self, created: bool = False, **kwargs) -> None:
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if not session:
             raise ValueError("Session cannot be None")
         await main_signal.emit_before_save(instance=self, session=session)
@@ -23,7 +23,7 @@ class ExModel(ExternalBaseModel):
 
     @classmethod
     async def create(cls, **kwargs) -> object:
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if session is None:
             raise ValueError("Session cannot be None")
         instance = cls(**kwargs)
@@ -31,7 +31,7 @@ class ExModel(ExternalBaseModel):
         return instance
 
     async def delete(self, **kwargs):
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if session is None:
             raise ValueError("Session cannot be None")
         await session.delete(self)
@@ -50,7 +50,7 @@ class Token(AbstractToken):
         return mapped_column(ForeignKey('user.id', ondelete="cascade"), nullable=False)
 
     async def save(self, created: bool = False, **kwargs) -> None:
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if not session:
             raise ValueError("Session cannot be None")
         if not self.key:
@@ -63,7 +63,7 @@ class Token(AbstractToken):
 
     @classmethod
     async def create(cls, **kwargs: Any) -> object:
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if session is None:
             raise ValueError("Session cannot be None")
         instance = cls(**kwargs)
@@ -71,7 +71,7 @@ class Token(AbstractToken):
         return instance
 
     async def delete(self, **kwargs):
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if session is None:
             raise ValueError("Session cannot be None")
         await session.delete(self)
@@ -90,7 +90,7 @@ class BaseUser(AbstractBaseUser):
     USERNAME_FIELD = ""
 
     async def save(self, created: bool = False, **kwargs) -> None:
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if session is None:
             raise ValueError("Session cannot be None")
         await main_signal.emit_before_save(instance=self, session=session)
@@ -100,7 +100,7 @@ class BaseUser(AbstractBaseUser):
         return await main_signal.emit_after_save(instance=self, created=created, session=session)
 
     async def delete(self, **kwargs) -> None:
-        session: AsyncSession = kwargs.get('session')
+        session: AsyncSession = kwargs.pop('session')
         if session is None:
             raise ValueError("Session cannot be None")
         await session.delete(self)
@@ -108,7 +108,7 @@ class BaseUser(AbstractBaseUser):
 
     @classmethod
     async def create(cls, **kwargs: Any) -> object:
-        session: AsyncSession = kwargs.get('session', None)
+        session: AsyncSession = kwargs.pop('session', None)
         if session is None:
             raise ValueError("Session cannot be None")
         instance = cls(**kwargs)

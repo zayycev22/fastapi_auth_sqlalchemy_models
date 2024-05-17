@@ -18,6 +18,7 @@ class ExModel(ExternalBaseModel):
         await main_signal.emit_before_save(instance=self, session=session)
         session.add(self)
         await session.flush()
+        await session.refresh(self)
         await session.commit()
         return await main_signal.emit_after_save(instance=self, created=created, session=session)
 
@@ -58,6 +59,7 @@ class Token(AbstractToken):
         await main_signal.emit_before_save(instance=self, session=session)
         session.add(self)
         await session.flush()
+        await session.refresh(self)
         await session.commit()
         return await main_signal.emit_after_save(instance=self, created=created, session=session)
 

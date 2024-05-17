@@ -17,6 +17,7 @@ class ExModel(ExternalBaseModel):
             raise ValueError("Session cannot be None")
         session.add(self)
         await session.flush()
+        await session.refresh(self)
         await session.commit()
         return await main_signal.emit_after_save(instance=self, created=created, session=session)
 
@@ -56,6 +57,7 @@ class Token(AbstractToken):
             self.key = self.generate_key()
         session.add(self)
         await session.flush()
+        await session.refresh(self)
         await session.commit()
         return await main_signal.emit_after_save(instance=self, created=created, session=session)
 
